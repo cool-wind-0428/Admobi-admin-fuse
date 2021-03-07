@@ -8,7 +8,7 @@ const AdmobiConfig = {
 	routes: [
 		{
 			path: '/admobi/devicelist',
-			component: React.lazy(() => import('./devicelists/admobi'))
+			component: React.lazy(() => import('./admobi'))
 		}
 	]
 };

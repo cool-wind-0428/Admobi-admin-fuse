@@ -8,6 +8,7 @@ import React, { useState, useRef } from "react";
 import ProductsTable from "../main/apps/e-commerce/products/ProductsTable";
 import Button from "@material-ui/core/Button";
 import firebaseService from "app/services/firebaseService";
+import { functions } from "lodash";
 
 const useStyles = makeStyles((theme) => ({
   layoutRoot: {},
@@ -28,6 +29,8 @@ function CardedLeftSidebarSample() {
   const [updateFlagList, setUpdateFlagList] = useState([]);
   const [showImages, setShowImages] = useState([]);
   const [onLoading, setLoading] = useState(false);
+  const [onlineDevice, setOnlineDevice] = useState('')
+  const [offlineDevice, setOfflineDevice] = useState('')
 
   function onCheckEvent(selected) {
     setSelected(selected);
@@ -60,6 +63,29 @@ function CardedLeftSidebarSample() {
       }
     }
     setLoading(false);
+  }
+
+  async function updateWiFiFlag(){
+    for(let i = 0 ; i < selected.length ; i ++){
+      const ref = firebaseService.db.ref(`${selected[i]}/wifiFlag`);
+      const n= await ref.once("value");
+      const flag = n.val();
+      await firebaseService.db.ref(`${selected[i]}/wifiFlag`).set(flag+1);
+      firebaseService.db.ref(`${selected[i]}/wifiFlag`).orderByChild('updatedAt').on('value',function(result){
+        console.log(result.val());
+        if(result.val() == 0){
+          if(onlineDevice){
+            setOnlineDevice('');  
+          }
+          setOnlineDevice(selected[i]);
+        }else{
+          if(offlineDevice){
+            setOfflineDevice('');  
+          }
+          setOfflineDevice(selected[i]);
+        }
+      });
+    }
   }
 
   return (
@@ -108,7 +134,12 @@ function CardedLeftSidebarSample() {
                 type="file"
                 onChange={handleImageAsFile}
               />
-              <Button variant="contained">Update Wi-Fi Status</Button>
+              <Button 
+                variant="contained"
+                onClick={updateWiFiFlag}
+              >
+                Update Wi-Fi Status
+              </Button>
               <Button
                 variant="contained"
                 color="secondary"
@@ -154,6 +185,8 @@ function CardedLeftSidebarSample() {
             onLoading={onLoading}
             onCheckEvent={onCheckEvent}
             updateFlagList={updateFlagList}
+            onlineDevice={onlineDevice}
+            offlineDevice={offlineDevice}
           />
         </div>
       }

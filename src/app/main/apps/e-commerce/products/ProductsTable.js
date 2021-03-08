@@ -22,19 +22,50 @@ function ProductsTable(props) {
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [order, setOrder] = useState({
     direction: "asc",
     id: null,
   });
+
+  const [ flag, setFlag ] = useState(false)
 
   useEffect(() => {
     setLoading(props.onLoading);
   }, [props.onLoading]);
 
   useEffect(() => {
+	  setRowsPerPage(10)
     loadDeviceList();
   }, []);
+
+  useEffect(() => {
+    let temp = devicelists;
+    console.log("online")
+    console.log(props.onlineDevice);
+    for(let i = 0 ; i < temp.length ; i ++){
+        if(temp[i].deviceId == props.onlineDevice){
+          console.log(props.onlineDevice);
+          temp[i].wifiFlag = 0;
+          setDeviceData(temp);
+          setFlag(!flag);
+        }
+    }
+  }, [props.onlineDevice])
+
+  useEffect(() => {
+    let temp = devicelists;
+    if(props.offlineDevice != ''){
+      for(let i = 0 ; i < temp.length ; i ++){
+          if(temp[i].deviceId == props.offlineDevice){
+            console.log(props.offlineDevice);
+            temp[i].wifiFlag = 1;
+            setDeviceData(temp);
+            setFlag(!flag);
+          }
+      }
+    }
+  }, [props.offlineDevice])
 
   useEffect(() => {
     if (props.updateFlagList) {
@@ -51,6 +82,7 @@ function ProductsTable(props) {
     ref.once("value").then((n) => {
       const data = n.val();
       Object.keys(data).map((key) => {
+        data[key].wifiFlag = 5;
         if (key != "users") result.push(data[key]);
       });
       setData1(result);
@@ -242,11 +274,12 @@ function ProductsTable(props) {
                       component="th"
                       scope="row"
                     >
-                      {true ? (
+                      {n.wifiFlag == 0 ? (
                         <Icon className="text-green text-20">check_circle</Icon>
                       ) : (
                         <Icon className="text-red text-20">remove_circle</Icon>
-                      )}
+                      )
+                      }
                     </TableCell>
                   </TableRow>
                 );
@@ -270,6 +303,7 @@ function ProductsTable(props) {
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
+	  <br/><br/>
     </div>
   );
 }

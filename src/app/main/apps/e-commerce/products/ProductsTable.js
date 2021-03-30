@@ -18,6 +18,7 @@ import firebaseService from "app/services/firebaseService";
 import { RestoreOutlined } from "@material-ui/icons";
 
 function ProductsTable(props) {
+  const [defailtDeviceList, setDefaultDeviceList] = useState([]);
   const [devicelists, setDeviceData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState([]);
@@ -41,8 +42,6 @@ function ProductsTable(props) {
 
   useEffect(() => {
     let temp = devicelists;
-    console.log("online")
-    console.log(props.onlineDevice);
     for(let i = 0 ; i < temp.length ; i ++){
         if(temp[i].deviceId == props.onlineDevice){
           console.log(props.onlineDevice);
@@ -54,11 +53,31 @@ function ProductsTable(props) {
   }, [props.onlineDevice])
 
   useEffect(() => {
+    // console.log(props.searchKey);
+    if(props.searchKey == "")
+      setDeviceData(defailtDeviceList)
+    else{
+      const filteredArr = defailtDeviceList.filter(
+        (ele) => {
+          let temp = ele.uploadFolder;
+          // temp = temp.toString();
+          if(temp){
+            if(temp.indexOf(props.searchKey) !== -1){
+              return ele;
+            }
+          }
+          // return ele.uploadFolder.includes('CM')
+        }
+      )
+      setDeviceData(filteredArr);
+    }
+  }, [props.searchKey])
+
+  useEffect(() => {
     let temp = devicelists;
     if(props.offlineDevice != ''){
       for(let i = 0 ; i < temp.length ; i ++){
           if(temp[i].deviceId == props.offlineDevice){
-            console.log(props.offlineDevice);
             temp[i].wifiFlag = 1;
             setDeviceData(temp);
             setFlag(!flag);
@@ -91,6 +110,7 @@ function ProductsTable(props) {
 
   function setData1(data) {
     setLoading(false);
+    setDefaultDeviceList(data);
     setDeviceData(data);
   }
 
@@ -262,13 +282,13 @@ function ProductsTable(props) {
                     >
                       {n.uploadFolder}
                     </TableCell>
-                    <TableCell
+                    {/* <TableCell
                       className="w-40 md:w-100"
                       component="th"
                       scope="row"
                     >
                       {n.updateFlag}
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell
                       className="w-40 md:w-100 text-left"
                       component="th"

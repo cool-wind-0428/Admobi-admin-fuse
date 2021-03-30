@@ -54,13 +54,6 @@ const rows = [
 		sort: true
 	},
 	{
-		id: 'updateFlag',
-		align: 'left',
-		disablePadding: false,
-		label: 'Update Key',
-		sort: true
-	},
-	{
 		id: 'active',
 		align: 'left',
 		disablePadding: false,

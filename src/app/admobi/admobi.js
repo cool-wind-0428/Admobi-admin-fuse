@@ -8,11 +8,15 @@ import React, { useState, useRef } from "react";
 import ProductsTable from "../main/apps/e-commerce/products/ProductsTable";
 import Button from "@material-ui/core/Button";
 import firebaseService from "app/services/firebaseService";
-import { functions } from "lodash";
+import Input from '@material-ui/core/Input';
+import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles((theme) => ({
   layoutRoot: {},
   root: {
+    position:'fixed',
+    width: '100%',
+    zIndex:100,
     "& > *": {
       margin: theme.spacing(0.5),
     },
@@ -31,6 +35,7 @@ function CardedLeftSidebarSample() {
   const [onLoading, setLoading] = useState(false);
   const [onlineDevice, setOnlineDevice] = useState('')
   const [offlineDevice, setOfflineDevice] = useState('')
+  const [searchKey, setSearchKey] = useState("");
 
   function onCheckEvent(selected) {
     setSelected(selected);
@@ -72,7 +77,6 @@ function CardedLeftSidebarSample() {
       const flag = n.val();
       await firebaseService.db.ref(`${selected[i]}/wifiFlag`).set(flag+1);
       firebaseService.db.ref(`${selected[i]}/wifiFlag`).orderByChild('updatedAt').on('value',function(result){
-        console.log(result.val());
         if(result.val() == 0){
           if(onlineDevice){
             setOnlineDevice('');  
@@ -162,20 +166,42 @@ function CardedLeftSidebarSample() {
             </>
           ) : (
             <>
-              <Button variant="contained" disabled>
+              <Button 
+                variant="contained"
+              >
                 Update Wi-Fi Status
               </Button>
-              <Button variant="contained" color="secondary" disabled>
+              <Button
+                variant="contained"
+                color="secondary"
+              >
                 Update Flag Key
               </Button>
-              <Button variant="contained" component="span" disabled>
-                Add File
-              </Button>
-              <Button variant="contained" color="secondary" disabled>
+                <Button variant="contained" component="span">
+                  Add File
+                </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+              >
                 Show Image
               </Button>
             </>
           )}
+          <Paper className="flex items-center w-full max-w-512 px-8 py-4 rounded-8 shadow">
+              <Icon color="action">search</Icon>
+              <Input
+                placeholder="Search"
+                className="flex flex-1 mx-8"
+                disableUnderline
+                fullWidth
+                value={searchKey}
+                inputProps={{
+                  'aria-label': 'Search'
+                }}
+                onChange={ev => setSearchKey(ev.target.value)}
+              />
+          </Paper>
         </div>
       }
       leftSidebarContent={
@@ -187,6 +213,7 @@ function CardedLeftSidebarSample() {
             updateFlagList={updateFlagList}
             onlineDevice={onlineDevice}
             offlineDevice={offlineDevice}
+            searchKey={searchKey}
           />
         </div>
       }

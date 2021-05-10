@@ -27,11 +27,7 @@ const generateClassName = createGenerateClassName();
 
 const App = () => {
 	return (
-		<AppContext.Provider
-			value={{
-				routes
-			}}
-		>
+		<AppContext.Provider value={{routes}}>
 			<StylesProvider jss={jss} generateClassName={generateClassName}>
 				<Provider store={store}>
 					<MuiPickersUtilsProvider utils={MomentUtils}>

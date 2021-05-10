@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
     display: "none",
   },
 }));
-
 function CardedLeftSidebarSample() {
   const classes = useStyles();
   const pageLayout = useRef(null);
@@ -204,6 +203,9 @@ function CardedLeftSidebarSample() {
           </Paper>
         </div>
       }
+
+
+    
       leftSidebarContent={
         <div className="p-24">
           <h4>Please select devices</h4>
@@ -217,6 +219,7 @@ function CardedLeftSidebarSample() {
           />
         </div>
       }
+     
       ref={pageLayout}
     />
   );

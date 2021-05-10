@@ -23,10 +23,18 @@ export const submitLoginWithFireBase = ({ username, password }) => async dispatc
 
 		return () => false;
 	}
+	console.log(username);
+	if(username == "brzden32@gmail.com")
+	{
+		console.log("OK");
+	}
+	else {
+		console.log("no");
+	}
 	return firebaseService.auth
 		.signInWithEmailAndPassword(username, password)
 		.then(() => {
-			return dispatch(loginSuccess());
+			return dispatch(loginSuccess({username}));
 		})
 		.catch(error => {
 			const usernameErrorCodes = [
@@ -53,6 +61,9 @@ export const submitLoginWithFireBase = ({ username, password }) => async dispatc
 
 const initialState = {
 	success: false,
+	user: {
+		username: null
+	},
 	error: {
 		username: null,
 		password: null
@@ -65,6 +76,7 @@ const loginSlice = createSlice({
 	reducers: {
 		loginSuccess: (state, action) => {
 			state.success = true;
+			state.user = action.payload;
 		},
 		loginError: (state, action) => {
 			state.success = false;
@@ -77,3 +89,5 @@ const loginSlice = createSlice({
 export const { loginSuccess, loginError } = loginSlice.actions;
 
 export default loginSlice.reducer;
+
+

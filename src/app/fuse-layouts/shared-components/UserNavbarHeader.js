@@ -5,8 +5,10 @@ import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import React from 'react';
 import { useSelector } from 'react-redux';
+import Userdataemail from '../../main/apps/e-commerce/products/UsersTable';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
+
 	root: {
 		'&.user': {
 			'& .username, & .email': {
@@ -41,6 +43,8 @@ function UserNavbarHeader(props) {
 	const user = useSelector(({ auth }) => auth.user);
 
 	const classes = useStyles();
+
+	// console.log(devicelists);
 
 	return (
 		<AppBar

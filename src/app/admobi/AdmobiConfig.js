@@ -9,6 +9,10 @@ const AdmobiConfig = {
 		{
 			path: '/admobi/devicelist',
 			component: React.lazy(() => import('./admobi'))
+		},
+		{
+			path: '/admobi/userdatalist',
+			component: React.lazy(() => import('./Userdata'))
 		}
 	]
 };

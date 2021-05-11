@@ -8,8 +8,14 @@ import NavbarFoldedToggleButton from 'app/fuse-layouts/shared-components/NavbarF
 import NavbarMobileToggleButton from 'app/fuse-layouts/shared-components/NavbarMobileToggleButton';
 import Navigation from 'app/fuse-layouts/shared-components/Navigation';
 import UserNavbarHeader from 'app/fuse-layouts/shared-components/UserNavbarHeader';
+// import UserManager from 'app/fuse-layouts/shared-components/UserManger';
 import clsx from 'clsx';
 import React from 'react';
+// import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import UserManager from "./UserManager";
+
 
 const useStyles = makeStyles(theme => ({
 	root: {

@@ -11,6 +11,10 @@ import UserInterfaceConfig from 'app/main/user-interface/UserInterfaceConfig';
 import AdmobiConfig from 'app/admobi/AdmobiConfig';
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import EditUser from '../../app/admobi/EditUser';
+import AdminRoleExample from 'app/main/auth/admin-role-example/AdminRoleExample';
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import RootPage from 'app/main/pages/rootPages';
 
 const routeConfigs = [
 	...appsConfigs,
@@ -23,7 +27,8 @@ const routeConfigs = [
 	RegisterConfig,
 	LogoutConfig,
 	CallbackConfig,
-	AdmobiConfig
+	AdmobiConfig,
+	
 ];
 
 const routes = [
@@ -38,8 +43,20 @@ const routes = [
 		component: () => <Redirect to="/admobi/devicelist" />
 	},
 	{
+		path: '/admobi/userdatalist',
+		component: () => <Redirect to = "/admobi/userdatalist" />
+	},
+	// console.log(username);
+	// {
+	// 	path: '/EditUser',
+	// 	component: () => <Redirect to = "/admobi/EditUser" />
+	// },
+	{
 		component: () => <Redirect to="/pages/errors/error-404" />
 	}
 ];
+
+
+{/* <Route path={"/"} component={RootPage}></Route> */}
 
 export default routes;

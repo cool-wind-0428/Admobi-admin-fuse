@@ -1,14 +1,22 @@
 import { authRoles } from 'app/auth';
+import loginSlice from 'app/auth/store/loginSlice';
 import i18next from 'i18next';
 import DocumentationNavigation from '../main/documentation/DocumentationNavigation';
 
 import ar from './navigation-i18n/ar';
 import en from './navigation-i18n/en';
 import tr from './navigation-i18n/tr';
+import { connect } from "react-redux";
+// import { setUserData } from './userSlice';
+// import { submitLoginWithFireBase } from 'app/auth/store/loginSlice';
+// import { submitLoginWithFireBase } from 'app/auth/store/loginSlice';
+
+// console.log(submitLoginWithFireBase);
 
 i18next.addResourceBundle('en', 'navigation', en);
 i18next.addResourceBundle('tr', 'navigation', tr);
 i18next.addResourceBundle('ar', 'navigation', ar);
+// console.log(username);
 
 const navigationConfig = [
 	{
@@ -19,6 +27,16 @@ const navigationConfig = [
 		icon: 'dashboard',
 		url: '/admobi/devicelist'
 	},
+	{
+		id: 'userdata',
+		title: 'Userdata',
+		translate: "USERDATA",
+		type: 'item',
+		icon: 'dashboard',
+		url: '/admobi/userdatalist'
+	},
+
+
 	// {
 	// 	id: 'applications',
 	// 	title: 'Applications',

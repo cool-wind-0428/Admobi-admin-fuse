@@ -108,12 +108,13 @@ function CardedLeftSidebarSample() {
               </IconButton>
             </Hidden>
             {/* hidden by Serhii */}
-            {/* <div className="flex-1">
+            <div className="flex-1">
               <h4>This card will show selected device's lists</h4>
-            </div> */}
+            </div>
           </div>
         </div>
       }
+      showNavigation={true}
       contentToolbar={
         <div className="px-24">
           <h4>Selected Device Images</h4>
@@ -128,7 +129,7 @@ function CardedLeftSidebarSample() {
       }
       leftSidebarHeader={
         <div className={classes.root}>
-          {/* {selected.length ? (
+          {selected.length ? (
             <>
               <input
                 accept="image/*, video/*"
@@ -201,7 +202,7 @@ function CardedLeftSidebarSample() {
                 }}
                 onChange={ev => setSearchKey(ev.target.value)}
               />
-          </Paper> */}
+          </Paper>
         </div>
       }
 

@@ -114,6 +114,7 @@ function CardedLeftSidebarSample() {
 					</div>
 				</div>
 			}
+			showNavigation={false}
 			contentToolbar={
 				<div className="px-24">
 					<h4>Selected Device Images</h4>

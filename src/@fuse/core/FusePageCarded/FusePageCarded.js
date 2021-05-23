@@ -143,6 +143,7 @@ const FusePageCarded = React.forwardRef((props, ref) => {
 	const classes = useStyles(props);
 	const isRightSidebar = props.rightSidebarHeader || props.rightSidebarContent;
 	const isLeftSidebar = props.leftSidebarHeader || props.leftSidebarContent;
+	const showNavigation = props.showNavigation;
 
 	React.useImperativeHandle(ref, () => ({
 		rootRef,
@@ -171,9 +172,9 @@ const FusePageCarded = React.forwardRef((props, ref) => {
 						rootRef={rootRef}
 					/>
 				)}
-
-				{/* <div
-					className={clsx(
+				{showNavigation && (
+					<div
+						className={clsx(
 						classes.contentWrapper,
 						isLeftSidebar &&
 							(props.leftSidebarVariant === undefined || props.leftSidebarVariant === 'permanent') &&
@@ -181,24 +182,25 @@ const FusePageCarded = React.forwardRef((props, ref) => {
 						isRightSidebar &&
 							(props.rightSidebarVariant === undefined || props.rightSidebarVariant === 'permanent') &&
 							'lg:pr-0'
-					)}
-				>
-					<FusePageCardedHeader header={props.header} classes={classes} />
-
-					<div className={clsx(classes.contentCard, props.innerScroll && 'inner-scroll')}>
-						{props.contentToolbar && <div className={classes.toolbar}>{props.contentToolbar}</div>}
-
-						{props.content && (
-							<FuseScrollbars
-								className={classes.content}
-								enable={props.innerScroll}
-								scrollToTopOnRouteChange={props.innerScroll}
-							>
-								{props.content}
-							</FuseScrollbars>
 						)}
+					>
+						<FusePageCardedHeader header={props.header} classes={classes} />
+
+						<div className={clsx(classes.contentCard, props.innerScroll && 'inner-scroll')}>
+							{props.contentToolbar && <div className={classes.toolbar}>{props.contentToolbar}</div>}
+
+							{props.content && (
+								<FuseScrollbars
+									className={classes.content}
+									enable={props.innerScroll}
+									scrollToTopOnRouteChange={props.innerScroll}
+								>
+									{props.content}
+								</FuseScrollbars>
+							)}
+						</div>
 					</div>
-				</div> */}
+				)}
 
 				{isRightSidebar && (
 					<FusePageCardedSidebar

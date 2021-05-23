@@ -4,6 +4,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import AppBar from '@material-ui/core/AppBar';
 import Icon from '@material-ui/core/Icon';
 import Button from '@material-ui/core/Button';
+import { IconButton } from '@material-ui/core';
+import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -56,8 +58,14 @@ function UsersTable(props) {
 			backgroundColor: theme.palette.background.paper,
 			boxShadow: theme.shadows[5],
 			padding: theme.spacing(2, 4, 3)
-		}
-	}));
+		},
+		successIcon: {
+			color: 'green',
+		},
+		errorIcon: {
+			color: 'red',
+		},
+	}))();
 
 	const [flag, setFlag] = useState(false);
 
@@ -302,14 +310,14 @@ function UsersTable(props) {
 											<TableCell className="w-40 md:w-100" component="th" scope="row">
 												{n.data.photoURL &&
 													n.data.photoURL.map(photourl => {
-														return <p>{photourl}</p>;
+														return <p>{photourl}&nbsp&nbsp</p>;
 													})}
 
 												{/* {brands.map(brand => {
 													return <p>{brand}</p>;
 												})} */}
 											</TableCell>
-											<TableCell className="w-40 md:w-100" component="th" scope="row">
+											{/* <TableCell className="w-40 md:w-100" component="th" scope="row">
 												<Button>
 													<Icon
 														className="text-green text-20"
@@ -318,7 +326,7 @@ function UsersTable(props) {
 														delete
 													</Icon>
 												</Button>
-											</TableCell>
+											</TableCell> */}
 											<TableCell className="w-40 md:w-100 text-left" component="th" scope="row">
 												<Button onClick={() => handleClickEdit(n)}>
 													{/* <Dialog /> */}
@@ -457,23 +465,27 @@ function UsersTable(props) {
 											</TableCell>
 
 											<TableCell className="w-40 md:w-100" component="th" scope="row">
-												{n.data.photoURL}
+												{/* {n.data.photoURL} */}
+												{n.data.photoURL &&
+													n.data.photoURL.map(photourl => {
+														return <p>{photourl}</p>;
+													})}
 											</TableCell>
-											<TableCell className="w-40 md:w-100" component="th" scope="row">
+											{/* <TableCell className="w-40 md:w-100" component="th" scope="row"> */}
 												{/* <Button> */}
-												<Icon
+												{/* <Icon
 													className="text-green text-20"
 													// onClick={event => delete_row(event, n)}
 												>
 													checked
-												</Icon>
+												</Icon> */}
 												{/* </Button> */}
-											</TableCell>
+											{/* </TableCell> */}
 											<TableCell className="w-40 md:w-100 text-left" component="th" scope="row">
-												{/* <Button> */}
+												<IconButton  className={useStyles.successIcon} aria-label="add to shopping cart" onClick={() => handleClickEdit(n)}>
 												{/* <Dialog /> */}
-												<Icon className="text-green text-20">checked</Icon>
-												{/* </Button> */}
+													<EditRoundedIcon></EditRoundedIcon>
+												</IconButton >
 											</TableCell>
 										</TableRow>
 									);
@@ -481,6 +493,26 @@ function UsersTable(props) {
 						</TableBody>
 					</Table>
 				</FuseScrollbars>
+				<Modal
+					open={modal}
+					onClose={() => setModal(false)}
+					style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}
+				>
+					<div
+						style={{backgroundColor: 'white', width: 400, height: 500, padding: 30
+							// boxShadow: shadows[5],
+							// padding: spacing(2, 4, 3),
+						}}
+					>
+						<h1>Edit User</h1>
+						{/* <input type="text"
+					className="form-control"
+					id="formGroupExampleInput"
+					/> */}
+					{/* onUpdate={() => {console.log('updating router');}} */}
+						<Input currentItem={currentRow} onUpdate={() => {setModal(false); loadDeviceList()}} />
+					</div>
+				</Modal>
 
 				<TablePagination
 					className="flex-shrink-0 border-t-1"

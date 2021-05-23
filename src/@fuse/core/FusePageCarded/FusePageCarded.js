@@ -106,7 +106,7 @@ const useStyles = makeStyles(theme => ({
 		height: '100%'
 	},
 	leftSidebar: {
-		width: "60vw"
+		width: "100%"
 	},
 	rightSidebar: {},
 	sidebarHeader: {
@@ -172,7 +172,7 @@ const FusePageCarded = React.forwardRef((props, ref) => {
 					/>
 				)}
 
-				<div
+				{/* <div
 					className={clsx(
 						classes.contentWrapper,
 						isLeftSidebar &&
@@ -198,7 +198,7 @@ const FusePageCarded = React.forwardRef((props, ref) => {
 							</FuseScrollbars>
 						)}
 					</div>
-				</div>
+				</div> */}
 
 				{isRightSidebar && (
 					<FusePageCardedSidebar

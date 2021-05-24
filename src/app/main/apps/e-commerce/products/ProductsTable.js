@@ -30,6 +30,7 @@ function ProductsTable(props) {
 	});
 
 	const [flag, setFlag] = useState(false);
+	const userInfo = useSelector((state) => state.auth.user.data.photoURL);
 
 	useEffect(() => {
 		setLoading(props.onLoading);
@@ -95,10 +96,25 @@ function ProductsTable(props) {
 	function loadDeviceList() {
 		const result = [];
 		const ref = firebaseService.db.ref();
+		console.log("-----------------------------")
+		console.log(userInfo);
 		ref.once('value').then(n => {
 			const data = n.val();
 			Object.keys(data).map(key => {
-				if (key != 'users') result.push(data[key]);
+				if (key != 'users') {
+					for(var folderKey in userInfo)
+					{
+						var folder = userInfo[folderKey];
+						console.log(folder);
+						folder = folder.split("/");
+						console.log();
+						if(folder[folder.length-1] == data[key].uploadFolder)
+						{
+							result.push(data[key]);
+							break;
+						}
+					}
+				}
 			});
 			setData1(result);
 		});

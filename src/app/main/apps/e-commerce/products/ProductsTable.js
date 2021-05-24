@@ -30,7 +30,7 @@ function ProductsTable(props) {
 	});
 
 	const [flag, setFlag] = useState(false);
-	const userInfo = useSelector((state) => state.auth.user.data.photoURL);
+	const userInfo = useSelector((state) => state.auth.user);
 
 	useEffect(() => {
 		setLoading(props.onLoading);
@@ -93,6 +93,17 @@ function ProductsTable(props) {
 		}
 	}, [props.updateFlagList]);
 
+	const isAdmin = (userInfo) => {
+		if(userInfo instanceof String && userInfo == 'admin') return true;
+		if(userInfo instanceof Array){
+			for(var key in userInfo){
+				var role = userInfo[key];
+				if(role == 'admin') return true;
+			}
+		}
+		return false;
+	}
+
 	function loadDeviceList() {
 		const result = [];
 		const ref = firebaseService.db.ref();
@@ -102,16 +113,20 @@ function ProductsTable(props) {
 			const data = n.val();
 			Object.keys(data).map(key => {
 				if (key != 'users') {
-					for(var folderKey in userInfo)
-					{
-						var folder = userInfo[folderKey];
-						console.log(folder);
-						folder = folder.split("/");
-						console.log();
-						if(folder[folder.length-1] == data[key].uploadFolder)
+					var dataURL = userInfo.data.photoURL;
+
+					if(isAdmin(userInfo.role)) result.push(data[key]);
+					else{
+
+						for(var folderKey in dataURL)
 						{
-							result.push(data[key]);
-							break;
+							var folder = dataURL[folderKey];
+							folder = folder.split("/");
+							if(folder[folder.length-1] == data[key].uploadFolder)
+							{
+								result.push(data[key]);
+								break;
+							}
 						}
 					}
 				}

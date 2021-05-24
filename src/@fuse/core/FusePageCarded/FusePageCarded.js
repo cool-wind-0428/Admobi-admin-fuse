@@ -85,10 +85,12 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: 'transparent',
 		zIndex: 5,
 		overflow: 'hidden',
+		minWidth: "80%",
 		'&.permanent': {
 			[theme.breakpoints.up('lg')]: {
 				zIndex: 1,
-				position: 'relative'
+				position: 'relative',
+				minWidth: "80%",
 			}
 		}
 	},
@@ -159,7 +161,7 @@ const FusePageCarded = React.forwardRef((props, ref) => {
 		<div className={clsx(classes.root, props.innerScroll && classes.innerScroll)} ref={rootRef}>
 			<div className={classes.topBg} />
 
-			<div className="flex container w-full">
+			<div className="flex w-full">
 				{isLeftSidebar && (
 					<FusePageCardedSidebar
 						position="left"

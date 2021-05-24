@@ -230,7 +230,7 @@ function UsersTable(props) {
 			<FuseAnimate delay={100}>
 				<div className="flex flex-1 items-center justify-center h-full">
 					<Typography color="textSecondary" variant="h5">
-						There are no products!
+						There are no users!
 					</Typography>
 				</div>
 			</FuseAnimate>
@@ -294,7 +294,7 @@ function UsersTable(props) {
 											>
 												<img
 													className="w-full block rounded"
-													src="assets/images/ecommerce/product-image-placeholder.png"
+													src="assets/images/avatars/profile.png"
 													alt={n.name}
 												/>
 											</TableCell>
@@ -451,7 +451,7 @@ function UsersTable(props) {
 											>
 												<img
 													className="w-full block rounded"
-													src="assets/images/ecommerce/product-image-placeholder.png"
+													src="assets/images/avatars/profile.png"
 													alt={n.name}
 												/>
 											</TableCell>

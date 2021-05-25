@@ -55,7 +55,7 @@ export const createUserSettingsFirebase = authUser => async (dispatch, getState)
 	const user = _.merge({}, guestUser, {
 		uid: authUser.uid,
 		from: 'firebase',
-		role: ['admin'],
+		role: ['user'],//by Serhii
 		data: {
 			displayName: authUser.displayName,
 			email: authUser.email,

@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import FuseNavHorizontalCollapse from './horizontal/FuseNavHorizontalCollapse';
 import FuseNavHorizontalGroup from './horizontal/FuseNavHorizontalGroup';
 import FuseNavHorizontalItem from './horizontal/FuseNavHorizontalItem';
@@ -99,6 +100,19 @@ const useStyles = makeStyles(theme => ({
 function FuseNavigation(props) {
 	const classes = useStyles(props);
 	const { navigation, layout, active, dense, className } = props;
+	const userInfo = useSelector((state) => state.auth.user.role);
+	console.log(`userinfo${userInfo}`);
+
+	const isAdmin = (userInfo) => {
+		if(userInfo instanceof String && userInfo == 'admin') return true;
+		if(userInfo instanceof Array){
+			for(var key in userInfo){
+				var role = userInfo[key];
+				if(role == 'admin') return true;
+			}
+		}
+		return false;
+	}
 
 	const verticalNav = (
 		<List
@@ -111,9 +125,13 @@ function FuseNavigation(props) {
 				className
 			)}
 		>
-			{navigation.map(_item => (
+			{navigation.map(_item => {
+				console.log(_item);
+				if(!isAdmin(userInfo) && _item.id == 'userdata') return;
+				return (
 				<FuseNavItem key={_item.id} type={`vertical-${_item.type}`} item={_item} nestedLevel={0} />
-			))}
+				)
+			})}
 		</List>
 	);
 
@@ -128,15 +146,19 @@ function FuseNavigation(props) {
 				className
 			)}
 		>
-			{navigation.map(_item => (
-				<FuseNavItem
+			{navigation.map(_item => {
+				
+				if(userInfo != 'admin')
+				return (
+					<FuseNavItem
 					key={_item.id}
 					type={`horizontal-${_item.type}`}
 					item={_item}
 					nestedLevel={0}
 					dense={dense}
-				/>
-			))}
+					/>
+				)
+			})}
 		</List>
 	);
 

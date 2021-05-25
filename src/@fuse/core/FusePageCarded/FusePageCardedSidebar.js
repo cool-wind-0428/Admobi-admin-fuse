@@ -16,7 +16,8 @@ function FusePageCardedSidebar(props, ref) {
 	const handleToggleDrawer = () => {
 		setIsOpen(!isOpen);
 	};
-
+	console.log(props.showNavigation);
+	const widthStyle = (props.showNavigation ? classes.sidebarWrapper : classes.sidebarWrapperModify);
 	return (
 		<>
 			<Hidden lgUp={props.variant === 'permanent'}>
@@ -53,7 +54,7 @@ function FusePageCardedSidebar(props, ref) {
 				<Hidden mdDown>
 					<Drawer
 						variant="permanent"
-						className={clsx(classes.sidebarWrapper, props.variant)}
+						className={clsx(widthStyle, props.variant)}
 						open={isOpen}
 						classes={{
 							paper: clsx(

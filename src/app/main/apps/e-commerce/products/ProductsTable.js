@@ -30,6 +30,7 @@ function ProductsTable(props) {
 	});
 
 	const [flag, setFlag] = useState(false);
+	const userInfo = useSelector((state) => state.auth.user);
 
 	useEffect(() => {
 		setLoading(props.onLoading);
@@ -92,13 +93,41 @@ function ProductsTable(props) {
 		}
 	}, [props.updateFlagList]);
 
+	const isAdmin = (userInfo) => {
+		if(userInfo instanceof String && userInfo == 'admin') return true;
+		if(userInfo instanceof Array){
+			for(var key in userInfo){
+				var role = userInfo[key];
+				if(role == 'admin') return true;
+			}
+		}
+		return false;
+	}
+
 	function loadDeviceList() {
 		const result = [];
 		const ref = firebaseService.db.ref();
 		ref.once('value').then(n => {
 			const data = n.val();
 			Object.keys(data).map(key => {
-				if (key != 'users') result.push(data[key]);
+				if (key != 'users') {
+					var dataURL = userInfo.data.photoURL;
+
+					if(isAdmin(userInfo.role)) result.push(data[key]);
+					else{
+
+						for(var folderKey in dataURL)
+						{
+							var folder = dataURL[folderKey];
+							folder = folder.split("/");
+							if(folder[folder.length-1] == data[key].uploadFolder)
+							{
+								result.push(data[key]);
+								break;
+							}
+						}
+					}
+				}
 			});
 			setData1(result);
 		});
@@ -172,7 +201,7 @@ function ProductsTable(props) {
 			<FuseAnimate delay={100}>
 				<div className="flex flex-1 items-center justify-center h-full">
 					<Typography color="textSecondary" variant="h5">
-						There are no products!
+					You don't have any download access permission. Please contact super admin.
 					</Typography>
 				</div>
 			</FuseAnimate>

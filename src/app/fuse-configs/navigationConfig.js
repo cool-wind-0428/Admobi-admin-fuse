@@ -32,7 +32,7 @@ const navigationConfig = [
 		title: 'Userdata',
 		translate: "USERDATA",
 		type: 'item',
-		icon: 'dashboard',
+		icon: 'person',
 		url: '/admobi/userdatalist'
 	},
 

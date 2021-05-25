@@ -107,12 +107,14 @@ function CardedLeftSidebarSample() {
                 <Icon>menu</Icon>
               </IconButton>
             </Hidden>
+            {/* hidden by Serhii */}
             <div className="flex-1">
               <h4>This card will show selected device's lists</h4>
             </div>
           </div>
         </div>
       }
+      showNavigation={true}
       contentToolbar={
         <div className="px-24">
           <h4>Selected Device Images</h4>

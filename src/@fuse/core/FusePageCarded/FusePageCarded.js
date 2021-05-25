@@ -85,10 +85,26 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: 'transparent',
 		zIndex: 5,
 		overflow: 'hidden',
+		minWidth: "80%",
 		'&.permanent': {
 			[theme.breakpoints.up('lg')]: {
 				zIndex: 1,
-				position: 'relative'
+				position: 'relative',
+				minWidth: "80%",
+			}
+		}
+	},
+	sidebarWrapperModify: {
+		position: 'absolute',
+		backgroundColor: 'transparent',
+		zIndex: 5,
+		overflow: 'hidden',
+		minWidth: "80%",
+		'&.permanent': {
+			[theme.breakpoints.up('lg')]: {
+				zIndex: 1,
+				position: 'relative',
+				minWidth: "100%",
 			}
 		}
 	},
@@ -106,7 +122,7 @@ const useStyles = makeStyles(theme => ({
 		height: '100%'
 	},
 	leftSidebar: {
-		width: "60vw"
+		width: "100%"
 	},
 	rightSidebar: {},
 	sidebarHeader: {
@@ -143,6 +159,7 @@ const FusePageCarded = React.forwardRef((props, ref) => {
 	const classes = useStyles(props);
 	const isRightSidebar = props.rightSidebarHeader || props.rightSidebarContent;
 	const isLeftSidebar = props.leftSidebarHeader || props.leftSidebarContent;
+	const showNavigation = props.showNavigation;
 
 	React.useImperativeHandle(ref, () => ({
 		rootRef,
@@ -158,7 +175,7 @@ const FusePageCarded = React.forwardRef((props, ref) => {
 		<div className={clsx(classes.root, props.innerScroll && classes.innerScroll)} ref={rootRef}>
 			<div className={classes.topBg} />
 
-			<div className="flex container w-full">
+			<div className="flex w-full">
 				{isLeftSidebar && (
 					<FusePageCardedSidebar
 						position="left"
@@ -167,13 +184,14 @@ const FusePageCarded = React.forwardRef((props, ref) => {
 						variant={props.leftSidebarVariant || 'permanent'}
 						innerScroll={props.innerScroll}
 						classes={classes}
+						showNavigation={showNavigation}
 						ref={leftSidebarRef}
 						rootRef={rootRef}
 					/>
 				)}
-
-				<div
-					className={clsx(
+				{showNavigation && (
+					<div
+						className={clsx(
 						classes.contentWrapper,
 						isLeftSidebar &&
 							(props.leftSidebarVariant === undefined || props.leftSidebarVariant === 'permanent') &&
@@ -181,24 +199,25 @@ const FusePageCarded = React.forwardRef((props, ref) => {
 						isRightSidebar &&
 							(props.rightSidebarVariant === undefined || props.rightSidebarVariant === 'permanent') &&
 							'lg:pr-0'
-					)}
-				>
-					<FusePageCardedHeader header={props.header} classes={classes} />
-
-					<div className={clsx(classes.contentCard, props.innerScroll && 'inner-scroll')}>
-						{props.contentToolbar && <div className={classes.toolbar}>{props.contentToolbar}</div>}
-
-						{props.content && (
-							<FuseScrollbars
-								className={classes.content}
-								enable={props.innerScroll}
-								scrollToTopOnRouteChange={props.innerScroll}
-							>
-								{props.content}
-							</FuseScrollbars>
 						)}
+					>
+						<FusePageCardedHeader header={props.header} classes={classes} />
+
+						<div className={clsx(classes.contentCard, props.innerScroll && 'inner-scroll')}>
+							{props.contentToolbar && <div className={classes.toolbar}>{props.contentToolbar}</div>}
+
+							{props.content && (
+								<FuseScrollbars
+									className={classes.content}
+									enable={props.innerScroll}
+									scrollToTopOnRouteChange={props.innerScroll}
+								>
+									{props.content}
+								</FuseScrollbars>
+							)}
+						</div>
 					</div>
-				</div>
+				)}
 
 				{isRightSidebar && (
 					<FusePageCardedSidebar
@@ -208,6 +227,7 @@ const FusePageCarded = React.forwardRef((props, ref) => {
 						variant={props.rightSidebarVariant || 'permanent'}
 						innerScroll={props.innerScroll}
 						classes={classes}
+						showNavigation={showNavigation}
 						ref={rightSidebarRef}
 						rootRef={rootRef}
 					/>

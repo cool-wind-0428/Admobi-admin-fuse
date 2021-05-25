@@ -46,13 +46,13 @@ const rows = [
 		label: 'Donwload_folder',
 		sort: true
 	},
-	{
-		id: 'del',
-		align: 'left',
-		disablePadding: false,
-		label: 'Delete',
-		sort: true
-	},
+	// {
+	// 	id: 'del',
+	// 	align: 'left',
+	// 	disablePadding: false,
+	// 	label: 'Delete',
+	// 	sort: true
+	// },
 	{
 		id: 'ed',
 		align: 'left',

@@ -33,8 +33,8 @@ export const submitLoginWithFireBase = ({ username, password }) => async dispatc
 	}
 	return firebaseService.auth
 		.signInWithEmailAndPassword(username, password)
-		.then(() => {
-			return dispatch(loginSuccess({username}));
+		.then((userCredential) => {
+			return dispatch(loginSuccess({username, userCredential}));
 		})
 		.catch(error => {
 			const usernameErrorCodes = [

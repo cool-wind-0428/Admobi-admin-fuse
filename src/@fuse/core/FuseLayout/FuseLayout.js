@@ -74,6 +74,8 @@ function FuseLayout(props) {
 	const dispatch = useDispatch();
 	const settings = useSelector(({ fuse }) => fuse.settings.current);
 	const defaultSettings = useSelector(({ fuse }) => fuse.settings.defaults);
+	const userInfo = useSelector((state) => state.auth.user.role);
+	console.log(`userinfo${userInfo}`);
 
 	const appContext = useContext(AppContext);
 	const { routes } = appContext;

@@ -2,15 +2,18 @@ import FuseScrollbars from '@fuse/core/FuseScrollbars';
 import _ from '@lodash';
 import Checkbox from '@material-ui/core/Checkbox';
 import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 import Icon from '@material-ui/core/Icon';
 import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import { IconButton } from '@material-ui/core';
+import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
-import Modal from '@material-ui/core/Modal';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -35,13 +38,6 @@ function UsersTable(props) {
 	});
 	const [modal, setModal] = useState(false);
 
-	// const [value,setValue] = useState();
-
-	// function refresh() {
-	// 	// setValue({});
-	// 	console.log("nerona======",setValue({}));
-	// }
-
 	const user = useSelector(({ auth }) => auth.user);
 
 	const useStyles = makeStyles(theme => ({
@@ -56,8 +52,14 @@ function UsersTable(props) {
 			backgroundColor: theme.palette.background.paper,
 			boxShadow: theme.shadows[5],
 			padding: theme.spacing(2, 4, 3)
-		}
-	}));
+		},
+		successIcon: {
+			color: 'green',
+		},
+		errorIcon: {
+			color: 'red',
+		},
+	}))();
 
 	const [flag, setFlag] = useState(false);
 
@@ -70,15 +72,10 @@ function UsersTable(props) {
 		loadDeviceList();
 	}, []);
 
-	// useEffect(() => {
-	// 	console.log('[user]', user)
-	// }, [user]);
-
 	useEffect(() => {
 		let temp = devicelists;
 		for (let i = 0; i < temp.length; i++) {
 			if (temp[i].deviceId == props.onlineDevice) {
-				console.log(props.onlineDevice);
 				temp[i].wifiFlag = 0;
 				setDeviceData(temp);
 				setFlag(!flag);
@@ -87,18 +84,15 @@ function UsersTable(props) {
 	}, [props.onlineDevice]);
 
 	useEffect(() => {
-		// console.log(props.searchKey);
 		if (props.searchKey == '') setDeviceData(defailtDeviceList);
 		else {
 			const filteredArr = defailtDeviceList.filter(ele => {
 				let temp = ele.uploadFolder;
-				// temp = temp.toString();
 				if (temp) {
 					if (temp.indexOf(props.searchKey) !== -1) {
 						return ele;
 					}
 				}
-				// return ele.uploadFolder.includes('CM')
 			});
 			setDeviceData(filteredArr);
 		}
@@ -126,11 +120,18 @@ function UsersTable(props) {
 		}
 	}, [props.updateFlagList]);
 
-	const handleClickEdit = item => {
-		// console.log('item:',item.uid)
-		setCurrentRow(item);
-		setModal(true);
-		// loadDeviceList();
+	const handleClickEdit = (item, key) => {
+		var newItem = {};
+		for(var a in devicelists)
+		{
+			var device = devicelists[a];
+			if(device.uid == item.uid)
+			{
+				setCurrentRow(device);
+				setModal(true);
+				return;
+			}
+		}
 	};
 
 	function loadDeviceList() {
@@ -139,7 +140,6 @@ function UsersTable(props) {
 		ref.once('value').then(n => {
 			const data = n.val();
 			Object.keys(data).map(key => {
-				// data[key].wifiFlag = 5;
 				result.push(data[key]);
 			});
 			setData1(result);
@@ -168,8 +168,8 @@ function UsersTable(props) {
 
 	function handleSelectAllClick(event) {
 		if (event.target.checked) {
-			props.onCheckEvent(devicelists.map(n => n.deviceId));
-			setSelected(devicelists.map(n => n.deviceId));
+			props.onCheckEvent(devicelists.map((n, key) => n.uid));
+			setSelected(devicelists.map((n, key) => n.uid));
 			return;
 		}
 		props.onCheckEvent([]);
@@ -206,9 +206,7 @@ function UsersTable(props) {
 	}
 
 	const delete_row = (event, n) => {
-		// var childkey = document.getElementById(row).row.childData;
 		event.preventDefault();
-		console.log('OK:', n);
 		firebaseService.db.ref(`users/${n.uid}`).remove();
 		loadDeviceList();
 	};
@@ -222,7 +220,7 @@ function UsersTable(props) {
 			<FuseAnimate delay={100}>
 				<div className="flex flex-1 items-center justify-center h-full">
 					<Typography color="textSecondary" variant="h5">
-						There are no products!
+						There are no users!
 					</Typography>
 				</div>
 			</FuseAnimate>
@@ -286,7 +284,7 @@ function UsersTable(props) {
 											>
 												<img
 													className="w-full block rounded"
-													src="assets/images/ecommerce/product-image-placeholder.png"
+													src="assets/images/avatars/profile.png"
 													alt={n.name}
 												/>
 											</TableCell>
@@ -302,26 +300,11 @@ function UsersTable(props) {
 											<TableCell className="w-40 md:w-100" component="th" scope="row">
 												{n.data.photoURL &&
 													n.data.photoURL.map(photourl => {
-														return <p>{photourl}</p>;
-													})}
-
-												{/* {brands.map(brand => {
-													return <p>{brand}</p>;
-												})} */}
-											</TableCell>
-											<TableCell className="w-40 md:w-100" component="th" scope="row">
-												<Button>
-													<Icon
-														className="text-green text-20"
-														onClick={event => delete_row(event, n)}
-													>
-														delete
-													</Icon>
-												</Button>
+														return <p>{photourl}&nbsp&nbsp</p>;
+												})}
 											</TableCell>
 											<TableCell className="w-40 md:w-100 text-left" component="th" scope="row">
 												<Button onClick={() => handleClickEdit(n)}>
-													{/* <Dialog /> */}
 													<Icon className="text-green text-20">edit</Icon>
 												</Button>
 											</TableCell>
@@ -330,31 +313,32 @@ function UsersTable(props) {
 								})}
 						</TableBody>
 					</Table>
-					<Modal
+					<Dialog
 						open={modal}
 						onClose={() => setModal(false)}
-						style={{
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'center'
+						fullWidth
+						maxWidth="xs"
+						component="form"
+						classes={{
+							paper: 'rounded-8'
 						}}
 					>
+						<AppBar position="static">
+							<Toolbar className="flex w-full">
+								<Typography variant="subtitle1" color="inherit">
+									{'Edit User'}
+								</Typography>
+							</Toolbar>
+						</AppBar>
 						<div
 							style={{
 								backgroundColor: 'white',
 								width: 400,
 								height: 500,
 								padding: 30
-								// boxShadow: shadows[5],
-								// padding: spacing(2, 4, 3),
 							}}
 						>
 							<h1>Edit User</h1>
-							{/* <input type="text"
-						className="form-control"
-						id="formGroupExampleInput"
-						/> */}
-						{/* onUpdate={() => {console.log('updating router');}} */}
 							<Input currentItem={currentRow} 
 							onUpdate={() => 
 								{
@@ -363,7 +347,7 @@ function UsersTable(props) {
 								}
 								} />
 						</div>
-					</Modal>
+					</Dialog>
 				</FuseScrollbars>
 
 				<TablePagination
@@ -386,8 +370,12 @@ function UsersTable(props) {
 			</div>
 		);
 	} else {
+		var devicelistsFormed = devicelists.map((device)=>{
+			return {uid:device.uid, displayName:device.data.displayName, email:device.data.email, photoURL:(device.data.photoURL instanceof Array ? device.data.photoURL.join(','):device.data.photoURL)};
+		})
+		
 		return (
-			<div className="w-full flex flex-col">
+			<div className="w-full flex flex-col" style={{width:"100%"}}>
 				<FuseScrollbars className="flex-grow overflow-x-auto">
 					<Table stickyHeader className="min-w-xl" aria-labelledby="tableTitle">
 						<UsersTableHead
@@ -395,16 +383,22 @@ function UsersTable(props) {
 							order={order}
 							onSelectAllClick={handleSelectAllClick}
 							onRequestSort={handleRequestSort}
-							rowCount={devicelists.length}
+							rowCount={devicelistsFormed.length}
 							onMenuItemClick={handleDeselect}
 						/>
 
 						<TableBody>
 							{_.orderBy(
-								devicelists,
+								devicelistsFormed,
 								[
 									o => {
 										switch (order.id) {
+											case 'username':{
+												return o['displayName'];
+											}
+											case 'donwload_folder':{
+												return o['photoURL'];
+											}
 											default: {
 												return o[order.id];
 											}
@@ -414,8 +408,8 @@ function UsersTable(props) {
 								[order.direction]
 							)
 								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-								.map(n => {
-									const isSelected = selected.indexOf(n.data.displayName) !== -1;
+								.map((n, key) => {
+									const isSelected = selected.indexOf(n.uid) !== -1;
 									return (
 										<TableRow
 											className="h-64 cursor-pointer"
@@ -423,15 +417,15 @@ function UsersTable(props) {
 											role="checkbox"
 											aria-checked={isSelected}
 											tabIndex={-1}
-											key={n.data.displayName}
+											key={n.uid}
 											selected={isSelected}
-											onClick={event => handleCheck(event, n.data.displayName)}
+											onClick={event => handleCheck(event, n.uid)}
 										>
 											<TableCell className="w-40 md:w-64 text-center" padding="none">
 												<Checkbox
 													checked={isSelected}
 													onClick={event => event.stopPropagation()}
-													onChange={event => handleCheck(event, n.data.displayName)}
+													onChange={event => handleCheck(event, n.uid)}
 												/>
 											</TableCell>
 
@@ -443,37 +437,31 @@ function UsersTable(props) {
 											>
 												<img
 													className="w-full block rounded"
-													src="assets/images/ecommerce/product-image-placeholder.png"
+													src="assets/images/avatars/profile.png"
 													alt={n.name}
 												/>
 											</TableCell>
 
 											<TableCell className="w-40 md:w-100" component="th" scope="row">
-												{n.data.displayName}
+												{n.displayName}
 											</TableCell>
 
 											<TableCell className="w-40 md:w-100" component="th" scope="row">
-												{n.data.email}
+												{n.email}
 											</TableCell>
 
 											<TableCell className="w-40 md:w-100" component="th" scope="row">
-												{n.data.photoURL}
-											</TableCell>
-											<TableCell className="w-40 md:w-100" component="th" scope="row">
-												{/* <Button> */}
-												<Icon
-													className="text-green text-20"
-													// onClick={event => delete_row(event, n)}
-												>
-													checked
-												</Icon>
-												{/* </Button> */}
+												{/* {n.data.photoURL} */}
+												{n.photoURL && n.photoURL
+													// n.photoURL.map(photourl => {
+													// 	return <p>{photourl}</p>;
+													// })
+												}
 											</TableCell>
 											<TableCell className="w-40 md:w-100 text-left" component="th" scope="row">
-												{/* <Button> */}
-												{/* <Dialog /> */}
-												<Icon className="text-green text-20">checked</Icon>
-												{/* </Button> */}
+												<IconButton  className={useStyles.successIcon} aria-label="add to shopping cart" onClick={() => handleClickEdit(n,key)}>
+													<EditRoundedIcon></EditRoundedIcon>
+												</IconButton >
 											</TableCell>
 										</TableRow>
 									);
@@ -481,6 +469,25 @@ function UsersTable(props) {
 						</TableBody>
 					</Table>
 				</FuseScrollbars>
+				<Dialog
+					open={modal}
+					onClose={() => setModal(false)}
+					fullWidth
+					maxWidth="xs"
+					component="form"
+					classes={{
+						paper: 'rounded-8'
+					}}
+				>
+					<AppBar position="static">
+						<Toolbar className="flex w-full">
+							<Typography variant="subtitle1" color="inherit">
+								{'Edit User'}
+							</Typography>
+						</Toolbar>
+					</AppBar>
+					<Input currentItem={currentRow} onUpdate={() => {setModal(false); loadDeviceList()}} />
+				</Dialog>
 
 				<TablePagination
 					className="flex-shrink-0 border-t-1"

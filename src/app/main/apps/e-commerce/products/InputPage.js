@@ -1,18 +1,71 @@
 import React, { Component, useState, useEffect } from 'react';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.css';
 import firebaseService from 'app/services/firebaseService';
+import ToolbarMenu from '../../scrumboard/board/dialogs/card/toolbar/ToolbarMenu';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Input from '@material-ui/core/Input';
+import MenuItem from '@material-ui/core/MenuItem';
+import Checkbox from '@material-ui/core/Checkbox';
 import firebase from 'firebase/app';
+import { useForm } from '@fuse/hooks';
+import FuseUtils from '@fuse/utils/FuseUtils';
+import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton';
+import Switch from '@material-ui/core/Switch';
+import TextField from '@material-ui/core/TextField';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 import Select from 'react-select';
+//import Select from '@material-ui/core/Select';
 import makeAnimated from 'react-select/animated';
+import Formsy from 'formsy-react';
+import { TextFieldFormsy } from '@fuse/core/formsy';
+import { createMuiTheme, withStyles, ThemeProvider } from '@material-ui/core/styles';
 import UserTable from './UsersTable';
 // import { userRef } from 'app/services/service';
 import { MDBContainer, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact';
 
+const useStyles = makeStyles((theme) => ({
+	formControl: {
+	  margin: theme.spacing(1),
+	  minWidth: 120,
+	  maxWidth: 300,
+	},
+	chips: {
+	  display: 'flex',
+	  flexWrap: 'wrap',
+	},
+	chip: {
+	  margin: 2,
+	},
+	noLabel: {
+	  marginTop: theme.spacing(3),
+	},
+}));
+
+function getStyles(name, personName, theme) {
+	return {
+	  fontWeight:
+		personName.indexOf(name) === -1
+		  ? theme.typography.fontWeightRegular
+		  : theme.typography.fontWeightMedium,
+	};
+}
+
 export default function InputPage(props) {
 	const [state, setState] = useState(props.currentItem.data);
 	const [paths, setItems] = useState([]);
+	const classes = useStyles();
+  	const theme = useTheme();
 	// const [paths1, setItems2] = useState([]);
 	// const [allList, setItem3] = useState([]);
 
@@ -112,7 +165,18 @@ export default function InputPage(props) {
 	};
 
 	const onChange = selectedOptions => {
+		//console.log(selectedOptions);
 		setSelectedOptions(selectedOptions);
+	};
+	const handleChangeMultiple = (event) => {
+		const { options } = event.target;
+		const value = [];
+		for (let i = 0, l = options.length; i < l; i += 1) {
+		  if (options[i].selected) {
+			value.push({value:options[i].value, label:options[i].value});
+		  }
+		}
+		setSelectedOptions(value);
 	};
 	const animatedComponents = makeAnimated();
 	const [value, setValue] = useState();
@@ -139,45 +203,111 @@ export default function InputPage(props) {
 	};
 
 	return (
-		<div className="form-wrapper">
-			<Form.Group controlId="Name">
-				<Form.Label>UserName</Form.Label>
-				<Form.Control
-					type="text"
+		<>
+			<DialogContent classes={{ root: 'p-16 pb-0 sm:p-24 sm:pb-0' }} style={{minHeight:"300px"}}>
+				<TextField
+					id="title"
+					label="Title"
+					className="mt-8 mb-16"
+					InputLabelProps={{
+						shrink: true
+					}}
+					name="title"
 					value={state.displayName}
 					onChange={e => setState({ ...state, displayName: e.target.value })}
+					variant="outlined"
+					autoFocus
+					required
+					fullWidth
 				/>
-			</Form.Group>
-
-			<Form.Group controlId="Email">
-				<Form.Label>Email</Form.Label>
-				<Form.Control
-					type="email"
-					value={state.email}
-					onChange={e => setState({ ...state, email: e.target.value })}
+				{/* <Select
+					isMulti
+					name="colors"
+					options={paths}
+					className="basic-multi-select"
+					value={selectedOptions}
+					classNamePrefix="select"
+					onChange={selectedOptions => onChange(selectedOptions)}
+					closeMenuOnSelect={false}
+					components={animatedComponents}
+				/> */}
+				{/* <Select
+					labelId="demo-mutiple-checkbox-label"
+					id="demo-mutiple-checkbox"
+					multiple
+					value={selectedOptions}
+					onChange={selectedOptions => handleChangeMultiple(selectedOptions)}
+					input={<Input />}
+					renderValue={(selectedOptions) => {
+						var tmp = selectedOptions.map((option) => option.value);
+						return tmp.join(', ')
+					}}
+					// MenuProps={paths}
+					>
+					{paths.map((name) => (
+						<MenuItem key={name.value} value={name.value}>
+							<Checkbox checked={selectedOptions.indexOf(name) > -1} />
+							<ListItemText primary={name.value} />
+						</MenuItem>
+					))}
+				</Select> */}
+				<Select
+					isMulti
+					name="colors"
+					options={paths}
+					className="basic-multi-select"
+					value={selectedOptions}
+					classNamePrefix="select"
+					onChange={selectedOptions => onChange(selectedOptions)}
+					closeMenuOnSelect={false}
+					components={animatedComponents}
 				/>
-			</Form.Group>
-			<br></br>
-			<br></br>
-			<Select
-				isMulti
-				name="colors"
-				options={paths}
-				className="basic-multi-select"
-				value={selectedOptions}
-				classNamePrefix="select"
-				onChange={selectedOptions => onChange(selectedOptions)}
-				closeMenuOnSelect={false}
-				components={animatedComponents}
-			/>
-			<br></br>
-			<br></br>
-			<br></br>
+			</DialogContent>
+			<DialogActions className="justify-between px-8 sm:px-16">
+				<Button variant="contained" color="primary" type="submit" onClick={() => StoreTitle()}>
+					Add
+				</Button>
+			</DialogActions>
+		</>
+		// <div className="form-wrapper">
+		// 	<Form.Group controlId="Name">
+		// 		<Form.Label>UserName</Form.Label>
+		// 		<Form.Control
+		// 			type="text"
+		// 			value={state.displayName}
+		// 			onChange={e => setState({ ...state, displayName: e.target.value })}
+		// 		/>
+		// 	</Form.Group>
 
-			<Button variant="danger" size="lg" block="block" type="submit" onClick={() => StoreTitle()}>
-				Update Data
-			</Button>
-		</div>
+		// 	{/* <Form.Group controlId="Email">
+		// 		<Form.Label>Email</Form.Label>
+		// 		<Form.Control
+		// 			type="email"
+		// 			value={state.email}
+		// 			onChange={e => setState({ ...state, email: e.target.value })}
+		// 		/>
+		// 	</Form.Group> */}
+		// 	<br></br>
+		// 	<br></br>
+		// 	<Select
+		// 		isMulti
+		// 		name="colors"
+		// 		options={paths}
+		// 		className="basic-multi-select"
+		// 		value={selectedOptions}
+		// 		classNamePrefix="select"
+		// 		onChange={selectedOptions => onChange(selectedOptions)}
+		// 		closeMenuOnSelect={false}
+		// 		components={animatedComponents}
+		// 	/>
+		// 	<br></br>
+		// 	<br></br>
+		// 	<br></br>
+
+		// 	<Button variant="danger" size="lg" block="block" type="submit" onClick={() => StoreTitle()}>
+		// 		Update Data
+		// 	</Button>
+		// </div>
 	);
 }
 

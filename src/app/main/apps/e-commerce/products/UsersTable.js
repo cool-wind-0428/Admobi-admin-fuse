@@ -2,8 +2,10 @@ import FuseScrollbars from '@fuse/core/FuseScrollbars';
 import _ from '@lodash';
 import Checkbox from '@material-ui/core/Checkbox';
 import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 import Icon from '@material-ui/core/Icon';
 import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
 import { IconButton } from '@material-ui/core';
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import Table from '@material-ui/core/Table';
@@ -338,7 +340,7 @@ function UsersTable(props) {
 								})}
 						</TableBody>
 					</Table>
-					<Modal
+					{/* <Modal
 						open={modal}
 						onClose={() => setModal(false)}
 						style={{
@@ -346,7 +348,24 @@ function UsersTable(props) {
 							alignItems: 'center',
 							justifyContent: 'center'
 						}}
+					> */}
+					<Dialog
+						open={modal}
+						onClose={() => setModal(false)}
+						fullWidth
+						maxWidth="xs"
+						component="form"
+						classes={{
+							paper: 'rounded-8'
+						}}
 					>
+						<AppBar position="static">
+							<Toolbar className="flex w-full">
+								<Typography variant="subtitle1" color="inherit">
+									{'Edit User'}
+								</Typography>
+							</Toolbar>
+						</AppBar>
 						<div
 							style={{
 								backgroundColor: 'white',
@@ -371,7 +390,8 @@ function UsersTable(props) {
 								}
 								} />
 						</div>
-					</Modal>
+					</Dialog>
+					{/* </Modal> */}
 				</FuseScrollbars>
 
 				<TablePagination
@@ -395,7 +415,7 @@ function UsersTable(props) {
 		);
 	} else {
 		return (
-			<div className="w-full flex flex-col">
+			<div className="w-full flex flex-col" style={{width:"100%"}}>
 				<FuseScrollbars className="flex-grow overflow-x-auto">
 					<Table stickyHeader className="min-w-xl" aria-labelledby="tableTitle">
 						<UsersTableHead
@@ -493,26 +513,31 @@ function UsersTable(props) {
 						</TableBody>
 					</Table>
 				</FuseScrollbars>
-				<Modal
+				{/* <Modal
 					open={modal}
 					onClose={() => setModal(false)}
 					style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}
-				>
-					<div
-						style={{backgroundColor: 'white', width: 400, height: 500, padding: 30
-							// boxShadow: shadows[5],
-							// padding: spacing(2, 4, 3),
+				> */}
+					<Dialog
+						open={modal}
+						onClose={() => setModal(false)}
+						fullWidth
+						maxWidth="xs"
+						component="form"
+						classes={{
+							paper: 'rounded-8'
 						}}
 					>
-						<h1>Edit User</h1>
-						{/* <input type="text"
-					className="form-control"
-					id="formGroupExampleInput"
-					/> */}
-					{/* onUpdate={() => {console.log('updating router');}} */}
+						<AppBar position="static">
+							<Toolbar className="flex w-full">
+								<Typography variant="subtitle1" color="inherit">
+									{'Edit User'}
+								</Typography>
+							</Toolbar>
+						</AppBar>
 						<Input currentItem={currentRow} onUpdate={() => {setModal(false); loadDeviceList()}} />
-					</div>
-				</Modal>
+					</Dialog>
+				{/* </Modal> */}
 
 				<TablePagination
 					className="flex-shrink-0 border-t-1"

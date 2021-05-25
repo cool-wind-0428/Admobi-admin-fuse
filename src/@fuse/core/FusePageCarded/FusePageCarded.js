@@ -94,6 +94,20 @@ const useStyles = makeStyles(theme => ({
 			}
 		}
 	},
+	sidebarWrapperModify: {
+		position: 'absolute',
+		backgroundColor: 'transparent',
+		zIndex: 5,
+		overflow: 'hidden',
+		minWidth: "80%",
+		'&.permanent': {
+			[theme.breakpoints.up('lg')]: {
+				zIndex: 1,
+				position: 'relative',
+				minWidth: "100%",
+			}
+		}
+	},
 	sidebar: {
 		position: 'absolute',
 		'&.permanent': {
@@ -170,6 +184,7 @@ const FusePageCarded = React.forwardRef((props, ref) => {
 						variant={props.leftSidebarVariant || 'permanent'}
 						innerScroll={props.innerScroll}
 						classes={classes}
+						showNavigation={showNavigation}
 						ref={leftSidebarRef}
 						rootRef={rootRef}
 					/>
@@ -212,6 +227,7 @@ const FusePageCarded = React.forwardRef((props, ref) => {
 						variant={props.rightSidebarVariant || 'permanent'}
 						innerScroll={props.innerScroll}
 						classes={classes}
+						showNavigation={showNavigation}
 						ref={rightSidebarRef}
 						rootRef={rootRef}
 					/>

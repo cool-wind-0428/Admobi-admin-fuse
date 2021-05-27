@@ -35,6 +35,7 @@ import UserTable from './UsersTable';
 // import { userRef } from 'app/services/service';
 import { MDBContainer, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact';
 import Chip from '@material-ui/core/Chip';
+import logger from 'redux-logger';
 
 const useStyles = makeStyles((theme) => ({
 	formControl: {
@@ -94,33 +95,40 @@ export default function InputPage(props) {
 	const [selectedOptions, setSelectedOptions] = useState([]);
 
 	const [items1, setItems1] = useState([]);
+
+	useEffect(() => {
+
+		const getPaths = async () =>{
+			let ar = [];
+			ar.push("admobi");
+			var paths = [];
+
+			while((ar.length > 0)){
+				let k = ar.pop();
+				
+				const storageRef = firebase.storage().ref(k);
+				const lists = await storageRef.listAll();
+				
+				const paths2 = lists.prefixes.map(({ fullPath }) => ({
+					value: fullPath,
+					label: fullPath
+				}));
 	
-    const getChildFolders = async (path, originalPath) => {
-        const storageRef = firebase.storage().ref(path);
-        const lists = await storageRef.listAll();
-        return lists.prefixes.map(({ fullPath }) => ({
-            value: fullPath,
-            label: fullPath
-        }));
-    };
+				var i = 0;
+				for(i = 0;i < paths2.length;i++){
+					ar.push(paths2[i].label);
+				}
+				paths = [...paths, ...paths2];
+				setItems(paths);
 
-    useEffect(() => {
-        const getPaths = async () => {
-            const storageRef = firebase.storage().ref('admobi');
+			}
+		
+		};
 
-            const lists = await storageRef.listAll();
-            const paths = lists.prefixes.map(({ fullPath }) => ({
-                value: fullPath,
-                label: fullPath
-            }));
-            const promises = paths.map(async path => getChildFolders(path.label));
-            Promise.all(promises).then(paths2 => {
-                const filtered = paths2.filter(item => item.length > 0);
-                setItems([...paths, ...filtered.flatMap(x => x)]);
-            });
-        };
-        getPaths();
-    }, []);
+		getPaths();
+
+	}, []);
+
 
 	useEffect(() => {
 		const value1 = state.photoURL;

@@ -140,12 +140,17 @@ function DemoContent(props) {
 
   const deleteButtonClick = (tile) => {
     var fileRef = firebaseService.storage.refFromURL(tile.img);
-
+    let b = window.confirm("Are you sure you wanna delete it?");
+    if(b){
+      
     fileRef.delete().then(function () {
         preLoading()
     }).catch(function (error) {
         alert(error)
     });
+    }
+
+   
   }
 
   const handleClose = () => {

@@ -75,8 +75,8 @@ function getStyles(name, personName, theme) {
 		}
 		return false;
 	}
-	console.log(personName);
-	console.log(name+' '+isSelected())
+	 console.log(personName);
+	 console.log(name+' '+isSelected())
 	return {
 	  fontWeight:
 		!isSelected()
@@ -94,18 +94,33 @@ export default function InputPage(props) {
 	const [selectedOptions, setSelectedOptions] = useState([]);
 
 	const [items1, setItems1] = useState([]);
+	
+    const getChildFolders = async (path, originalPath) => {
+        const storageRef = firebase.storage().ref(path);
+        const lists = await storageRef.listAll();
+        return lists.prefixes.map(({ fullPath }) => ({
+            value: fullPath,
+            label: fullPath
+        }));
+    };
 
-	useEffect(async () => {
-		const storageRef = firebase.storage().ref('admobi');
+    useEffect(() => {
+        const getPaths = async () => {
+            const storageRef = firebase.storage().ref('admobi');
 
-		const lists = await storageRef.listAll();
-		// const allList = lists;
-		const paths = lists.prefixes.map(({ fullPath }) => ({
-			value: fullPath,
-			label: fullPath
-		}));
-		setItems(paths);
-	}, []);
+            const lists = await storageRef.listAll();
+            const paths = lists.prefixes.map(({ fullPath }) => ({
+                value: fullPath,
+                label: fullPath
+            }));
+            const promises = paths.map(async path => getChildFolders(path.label));
+            Promise.all(promises).then(paths2 => {
+                const filtered = paths2.filter(item => item.length > 0);
+                setItems([...paths, ...filtered.flatMap(x => x)]);
+            });
+        };
+        getPaths();
+    }, []);
 
 	useEffect(() => {
 		const value1 = state.photoURL;
@@ -229,9 +244,11 @@ export default function InputPage(props) {
 					>
 						{paths.map((path) => (
 							<MenuItem key={path.value} value={path.value} style={getStyles(path.value, selectedOptions, theme)} selected={true}>
-								{path.value}
+								{`${path.value}`}
 							</MenuItem>
 						))}
+
+
 					</Select>
 				</FormControl>
 				{/* <Select

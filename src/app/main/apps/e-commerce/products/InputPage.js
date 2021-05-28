@@ -3,6 +3,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.css';
 import firebaseService from 'app/services/firebaseService';
+import { LinearProgress } from '@material-ui/core';
 import ToolbarMenu from '../../scrumboard/board/dialogs/card/toolbar/ToolbarMenu';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -118,10 +119,10 @@ export default function InputPage(props) {
 				for(i = 0;i < paths2.length;i++){
 					ar.push(paths2[i].label);
 				}
-				paths = [...paths, ...paths2];
-				setItems(paths);
+				paths = [...paths, ...paths2];	
 
 			}
+			setItems(paths);
 		
 		};
 
@@ -217,7 +218,7 @@ export default function InputPage(props) {
 	};
 	return (
 		<>
-			<DialogContent classes={{ root: 'p-16 pb-0 sm:p-24 sm:pb-0' }} style={{minHeight:"300px"}}>
+			<DialogContent classes={{ root: 'p-16 pb-0 sm:p-24 sm:pb-0' }} style={{minHeight:"80vh"}}>
 				<TextField
 					id="title"
 					label="Title"
@@ -249,14 +250,16 @@ export default function InputPage(props) {
 							</div>
 						)}
 						MenuProps={MenuProps}
+
 					>
-						{paths.map((path) => (
+						
+						{paths.length == 0 ? <LinearProgress color="secondary" /> : paths.map((path) => (
 							<MenuItem key={path.value} value={path.value} style={getStyles(path.value, selectedOptions, theme)} selected={true}>
 								{`${path.value}`}
 							</MenuItem>
 						))}
-
-
+						
+						
 					</Select>
 				</FormControl>
 				{/* <Select

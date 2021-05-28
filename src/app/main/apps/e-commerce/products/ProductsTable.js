@@ -30,7 +30,7 @@ function ProductsTable(props) {
 	});
 
 	const [flag, setFlag] = useState(false);
-	const userInfo = useSelector((state) => state.auth.user);
+	const userInfo = useSelector(state => state.auth.user);
 
 	useEffect(() => {
 		setLoading(props.onLoading);
@@ -93,16 +93,16 @@ function ProductsTable(props) {
 		}
 	}, [props.updateFlagList]);
 
-	const isAdmin = (userInfo) => {
-		if(userInfo instanceof String && userInfo == 'admin') return true;
-		if(userInfo instanceof Array){
-			for(var key in userInfo){
+	const isAdmin = userInfo => {
+		if (userInfo instanceof String && userInfo == 'admin') return true;
+		if (userInfo instanceof Array) {
+			for (var key in userInfo) {
 				var role = userInfo[key];
-				if(role == 'admin') return true;
+				if (role == 'admin') return true;
 			}
 		}
 		return false;
-	}
+	};
 
 	function loadDeviceList() {
 		const result = [];
@@ -113,15 +113,12 @@ function ProductsTable(props) {
 				if (key != 'users') {
 					var dataURL = userInfo.data.photoURL;
 
-					if(isAdmin(userInfo.role)) result.push(data[key]);
-					else{
-
-						for(var folderKey in dataURL)
-						{
+					if (isAdmin(userInfo.role)) result.push(data[key]);
+					else {
+						for (var folderKey in dataURL) {
 							var folder = dataURL[folderKey];
-							folder = folder.split("/");
-							if(folder[folder.length-1] == data[key].uploadFolder)
-							{
+							folder = folder.split('/');
+							if (data[key].uploadFolder && data[key].uploadFolder.endsWith(folder[folder.length - 1])) {
 								result.push(data[key]);
 								break;
 							}
@@ -129,6 +126,7 @@ function ProductsTable(props) {
 					}
 				}
 			});
+
 			setData1(result);
 		});
 	}
@@ -201,7 +199,7 @@ function ProductsTable(props) {
 			<FuseAnimate delay={100}>
 				<div className="flex flex-1 items-center justify-center h-full">
 					<Typography color="textSecondary" variant="h5">
-					You don't have any download access permission. Please contact super admin.
+						You don't have any download access permission. Please contact super admin.
 					</Typography>
 				</div>
 			</FuseAnimate>

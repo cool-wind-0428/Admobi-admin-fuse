@@ -272,10 +272,10 @@ function DemoContent(props) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} color="default" variant="outlined">
             Cancel
           </Button>
-          <Button onClick={handleModalSave} color="primary">
+          <Button onClick={handleModalSave} color="default" variant="outlined">
             Save
           </Button>
         </DialogActions>

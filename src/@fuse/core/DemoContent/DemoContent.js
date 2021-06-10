@@ -27,21 +27,25 @@ const useStyles = makeStyles(theme => ({
 		display: 'flex',
 		flexWrap: 'wrap',
 		justifyContent: 'space-around',
+
 		overflow: 'hidden',
-		backgroundColor: theme.palette.background.paper,
+		backgroundColor: theme.palette.background.paper
+	},
+	inputlabel: {
+		color: '#888',
 		'&.Mui-focused': {
-			borderBottom: '4px solid #fff',
+			color: '#b24545',
+			fontWeight: '800'
+		}
+	},
+	inputlabelFocus: {
+		'&.Mui-focused': {
+			borderBottom: '4px solid #b24545',
 			fontWeight: '800',
-			color: '#fff',
+			color: '#b24545',
 			'& .MuiOutlinedInput-notchedOutline': {
 				border: 'none'
 			}
-		}
-	},
-	inputlabel: {
-		'&.Mui-focused': {
-			color: '#ffffff',
-			fontWeight: '800'
 		}
 	},
 	gridList: {
@@ -277,7 +281,7 @@ function DemoContent(props) {
 				<DialogContent>
 					<DialogContentText>INSIRA A ORDEM, NOME E TEMPO DE DURAÇÃO DA PUBLICIDADE</DialogContentText>
 					<TextField
-						InputProps={{ className: classes.root }}
+						InputProps={{ className: classes.inputlabelFocus }}
 						InputLabelProps={{ className: classes.inputlabel }}
 						autoFocus
 						value={modalState.order}
@@ -290,7 +294,7 @@ function DemoContent(props) {
 					/>
 					<TextField
 						value={modalState.name}
-						InputProps={{ className: classes.root }}
+						InputProps={{ className: classes.inputlabelFocus }}
 						InputLabelProps={{ className: classes.inputlabel }}
 						onChange={e => setModalState({ ...modalState, name: e.target.value })}
 						margin="normal"
@@ -300,7 +304,7 @@ function DemoContent(props) {
 						fullWidth
 					/>
 					<TextField
-						InputProps={{ className: classes.root }}
+						InputProps={{ className: classes.inputlabelFocus }}
 						InputLabelProps={{ className: classes.inputlabel }}
 						value={modalState.duration}
 						onChange={e => setModalState({ ...modalState, duration: e.target.value })}

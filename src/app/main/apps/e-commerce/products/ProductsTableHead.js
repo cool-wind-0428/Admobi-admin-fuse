@@ -29,28 +29,28 @@ const rows = [
 		id: 'deviceId',
 		align: 'left',
 		disablePadding: false,
-		label: 'DeviceID',
+		label: 'DISPOSITIVO ID',
 		sort: true
 	},
 	{
 		id: 'duration',
 		align: 'left',
 		disablePadding: false,
-		label: 'Duration',
+		label: 'TEMPO PADRÃO',
 		sort: true
 	},
 	{
 		id: 'password',
 		align: 'left',
 		disablePadding: false,
-		label: 'Password',
+		label: 'SENHA',
 		sort: true
 	},
 	{
 		id: 'uploadFolder',
 		align: 'left',
 		disablePadding: false,
-		label: 'Upload Folder',
+		label: 'PASTA SELECIONADA',
 		sort: true
 	},
 	{

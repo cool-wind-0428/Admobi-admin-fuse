@@ -29,21 +29,21 @@ const rows = [
 		id: 'username',
 		align: 'left',
 		disablePadding: false,
-		label: 'UserName',
+		label: 'NOME DE USUÁRIO',
 		sort: true
 	},
 	{
 		id: 'email',
 		align: 'left',
 		disablePadding: false,
-		label: 'Email',
+		label: 'E-MAIL',
 		sort: true
 	},
 	{
 		id: 'donwload_folder',
 		align: 'left',
 		disablePadding: false,
-		label: 'Donwload_folder',
+		label: 'PASTA(S) DE DOWLOAD',
 		sort: true
 	},
 	// {
@@ -57,7 +57,7 @@ const rows = [
 		id: 'ed',
 		align: 'left',
 		disablePadding: false,
-		label: 'Edit',
+		label: 'EDITAR',
 		sort: true
 	}
 ];

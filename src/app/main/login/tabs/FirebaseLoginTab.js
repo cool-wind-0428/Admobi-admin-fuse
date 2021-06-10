@@ -56,7 +56,7 @@ function FirebaseLoginTab(props) {
 						minLength: 4
 					}}
 					validationErrors={{
-						isEmail: 'Please enter a valid email'
+						isEmail: 'Por favor, insira um válido email'
 					}}
 					InputProps={{
 						endAdornment: (
@@ -75,12 +75,12 @@ function FirebaseLoginTab(props) {
 					className="mb-16"
 					type="password"
 					name="password"
-					label="Password"
+					label="SENHA"
 					validations={{
 						minLength: 4
 					}}
 					validationErrors={{
-						minLength: 'Min character length is 4'
+						minLength: 'O comprimento mínimo de caracteres é 4'
 					}}
 					InputProps={{
 						className: 'pr-2',
@@ -108,7 +108,7 @@ function FirebaseLoginTab(props) {
 					disabled={!isFormValid}
 					value="firebase"
 				>
-					Log in with Firebase
+					ENTRAR
 				</Button>
 			</Formsy>
 		</div>

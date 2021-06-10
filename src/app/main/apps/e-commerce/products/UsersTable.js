@@ -54,11 +54,11 @@ function UsersTable(props) {
 			padding: theme.spacing(2, 4, 3)
 		},
 		successIcon: {
-			color: 'green',
+			color: 'green'
 		},
 		errorIcon: {
-			color: 'red',
-		},
+			color: 'red'
+		}
 	}))();
 
 	const [flag, setFlag] = useState(false);
@@ -122,11 +122,9 @@ function UsersTable(props) {
 
 	const handleClickEdit = (item, key) => {
 		var newItem = {};
-		for(var a in devicelists)
-		{
+		for (var a in devicelists) {
 			var device = devicelists[a];
-			if(device.uid == item.uid)
-			{
+			if (device.uid == item.uid) {
 				setCurrentRow(device);
 				setModal(true);
 				return;
@@ -301,7 +299,7 @@ function UsersTable(props) {
 												{n.data.photoURL &&
 													n.data.photoURL.map(photourl => {
 														return <p>{photourl}&nbsp&nbsp</p>;
-												})}
+													})}
 											</TableCell>
 											<TableCell className="w-40 md:w-100 text-left" component="th" scope="row">
 												<Button onClick={() => handleClickEdit(n)}>
@@ -339,13 +337,13 @@ function UsersTable(props) {
 							}}
 						>
 							<h1>Edit User</h1>
-							<Input currentItem={currentRow} 
-							onUpdate={() => 
-								{
+							<Input
+								currentItem={currentRow}
+								onUpdate={() => {
 									setModal(false);
-									loadDeviceList()
-								}
-								} />
+									loadDeviceList();
+								}}
+							/>
 						</div>
 					</Dialog>
 				</FuseScrollbars>
@@ -370,12 +368,17 @@ function UsersTable(props) {
 			</div>
 		);
 	} else {
-		var devicelistsFormed = devicelists.map((device)=>{
-			return {uid:device.uid, displayName:device.data.displayName, email:device.data.email, photoURL:(device.data.photoURL instanceof Array ? device.data.photoURL.join(','):device.data.photoURL)};
-		})
-		
+		var devicelistsFormed = devicelists.map(device => {
+			return {
+				uid: device.uid,
+				displayName: device.data.displayName,
+				email: device.data.email,
+				photoURL: device.data.photoURL instanceof Array ? device.data.photoURL.join(',') : device.data.photoURL
+			};
+		});
+
 		return (
-			<div className="w-full flex flex-col" style={{width:"100%"}}>
+			<div className="w-full flex flex-col" style={{ width: '100%' }}>
 				<FuseScrollbars className="flex-grow overflow-x-auto">
 					<Table stickyHeader className="min-w-xl" aria-labelledby="tableTitle">
 						<UsersTableHead
@@ -393,10 +396,10 @@ function UsersTable(props) {
 								[
 									o => {
 										switch (order.id) {
-											case 'username':{
+											case 'username': {
 												return o['displayName'];
 											}
-											case 'donwload_folder':{
+											case 'donwload_folder': {
 												return o['photoURL'];
 											}
 											default: {
@@ -452,16 +455,21 @@ function UsersTable(props) {
 
 											<TableCell className="w-40 md:w-100" component="th" scope="row">
 												{/* {n.data.photoURL} */}
-												{n.photoURL && n.photoURL
+												{
+													n.photoURL && n.photoURL
 													// n.photoURL.map(photourl => {
 													// 	return <p>{photourl}</p>;
 													// })
 												}
 											</TableCell>
 											<TableCell className="w-40 md:w-100 text-left" component="th" scope="row">
-												<IconButton  className={useStyles.successIcon} aria-label="add to shopping cart" onClick={() => handleClickEdit(n,key)}>
+												<IconButton
+													className={useStyles.successIcon}
+													aria-label="add to shopping cart"
+													onClick={() => handleClickEdit(n, key)}
+												>
 													<EditRoundedIcon></EditRoundedIcon>
-												</IconButton >
+												</IconButton>
 											</TableCell>
 										</TableRow>
 									);
@@ -482,11 +490,17 @@ function UsersTable(props) {
 					<AppBar position="static">
 						<Toolbar className="flex w-full">
 							<Typography variant="subtitle1" color="inherit">
-								{'Edit User'}
+								{'ADICIONE OU REMOVA PASTAS'}
 							</Typography>
 						</Toolbar>
 					</AppBar>
-					<Input currentItem={currentRow} onUpdate={() => {setModal(false); loadDeviceList()}} />
+					<Input
+						currentItem={currentRow}
+						onUpdate={() => {
+							setModal(false);
+							loadDeviceList();
+						}}
+					/>
 				</Dialog>
 
 				<TablePagination

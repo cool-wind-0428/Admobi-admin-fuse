@@ -66,7 +66,7 @@ function Login() {
 											className="text-16 tracking-widest -mt-8 font-700"
 											color="textSecondary"
 										>
-											Web Panel
+											GERENCIAMENTO ONLINE
 										</Typography>
 									</div>
 								</div>
@@ -74,14 +74,14 @@ function Login() {
 							<FirebaseLoginTab />
 						</CardContent>
 
-						<div className="flex flex-col items-center justify-center pb-32">
+						{/* <div className="flex flex-col items-center justify-center pb-32">
 							<div>
 								<span className="font-medium mr-8">Don't have an account?</span>
 								<Link className="font-medium" to="/register">
 									Register
 								</Link>
 							</div>
-						</div>
+						</div> */}
 					</Card>
 
 					<div
@@ -90,14 +90,13 @@ function Login() {
 						<div className="max-w-320">
 							<FuseAnimate animation="transition.slideUpIn" delay={400}>
 								<Typography variant="h3" color="inherit" className="font-800 leading-tight">
-									Welcome <br />
-									to the <br /> Admobi!
+									BEM VINDO <br /> A <br /> ADMOBI! <br />
 								</Typography>
 							</FuseAnimate>
 
 							<FuseAnimate delay={500}>
 								<Typography variant="subtitle1" color="inherit" className="mt-32">
-									Powerful and professional Admobi business group!
+									TECNOLOGIA PARA COMUNICAR
 								</Typography>
 							</FuseAnimate>
 						</div>

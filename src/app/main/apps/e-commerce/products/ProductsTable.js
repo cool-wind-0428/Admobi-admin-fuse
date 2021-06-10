@@ -309,6 +309,7 @@ function ProductsTable(props) {
 				nextIconButtonProps={{
 					'aria-label': 'Next Page'
 				}}
+				labelRowsPerPage={'DISPOSITIVOS POR PÁGINA:'}
 				onChangePage={handleChangePage}
 				onChangeRowsPerPage={handleChangeRowsPerPage}
 			/>

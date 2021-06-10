@@ -186,7 +186,6 @@ function CardedLeftSidebarSample() {
 			}
 			leftSidebarContent={
 				<div className="p-24">
-					<h4>User Management</h4>
 					<UsersTable
 						onLoading={onLoading}
 						onCheckEvent={onCheckEvent}

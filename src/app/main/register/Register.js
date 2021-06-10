@@ -68,7 +68,7 @@ function Register() {
 											className="text-16 tracking-widest -mt-8 font-700"
 											color="textSecondary"
 										>
-											Web Panel
+											GERENCIAMENTO ONLINE
 										</Typography>
 									</div>
 								</div>
@@ -78,7 +78,7 @@ function Register() {
 
 						<div className="flex flex-col items-center justify-center pb-32">
 							<div>
-								<span className="font-medium mr-8">Already have an account?</span>
+								<span className="font-medium mr-8">já tem uma conta?</span>
 								<Link className="font-medium" to="/login">
 									Login
 								</Link>
@@ -92,14 +92,13 @@ function Register() {
 						<div className="max-w-320">
 							<FuseAnimate animation="transition.slideUpIn" delay={400}>
 								<Typography variant="h3" color="inherit" className="font-800 leading-tight">
-									Welcome <br />
-									to the <br /> Admobi!
+									BEM VINDO! <br /> A ADMOBI! <br />
 								</Typography>
 							</FuseAnimate>
 
 							<FuseAnimate delay={500}>
 								<Typography variant="subtitle1" color="inherit" className="mt-32">
-									Powerful and professional Admobi business group!
+									TECNOLOGIA PARA COMUNICAR
 								</Typography>
 							</FuseAnimate>
 						</div>

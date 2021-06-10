@@ -28,7 +28,21 @@ const useStyles = makeStyles(theme => ({
 		flexWrap: 'wrap',
 		justifyContent: 'space-around',
 		overflow: 'hidden',
-		backgroundColor: theme.palette.background.paper
+		backgroundColor: theme.palette.background.paper,
+		'&.Mui-focused': {
+			borderBottom: '4px solid #fff',
+			fontWeight: '800',
+			color: '#fff',
+			'& .MuiOutlinedInput-notchedOutline': {
+				border: 'none'
+			}
+		}
+	},
+	inputlabel: {
+		'&.Mui-focused': {
+			color: '#ffffff',
+			fontWeight: '800'
+		}
 	},
 	gridList: {
 		width: 600,
@@ -146,10 +160,9 @@ function DemoContent(props) {
 	const deleteButtonClick = (tile, prompt) => {
 		var fileRef = firebaseService.storage.refFromURL(tile.img);
 		let b;
-		if (prompt) b = window.confirm('Are you sure you wanna delete it?');
+		if (prompt) b = window.confirm('VOCÊ TEM CERTEZA QUE DESEJA DELETAR?');
 		else {
 			b = true;
-			console.log('Working');
 		}
 
 		if (b) {
@@ -217,7 +230,7 @@ function DemoContent(props) {
 			<GridList cellHeight={150} className={classes.gridList}>
 				<GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
 					<ListSubheader component="div">
-						<b>Total time of folder: {folderDuration}s</b>
+						<b>TEMPO TOTAL DE PUBLICIDADE: {folderDuration}s</b>
 					</ListSubheader>
 				</GridListTile>
 				{fileList.map((tile, index) => (
@@ -260,34 +273,40 @@ function DemoContent(props) {
 				))}
 			</GridList>
 			<Dialog open={modalState.showFlag} onClose={handleClose} aria-labelledby="form-dialog-title">
-				<DialogTitle id="form-dialog-title">Detail</DialogTitle>
+				<DialogTitle id="form-dialog-title">DETALHES</DialogTitle>
 				<DialogContent>
-					<DialogContentText>Please input file order, name, duration time</DialogContentText>
+					<DialogContentText>INSIRA A ORDEM, NOME E TEMPO DE DURAÇÃO DA PUBLICIDADE</DialogContentText>
 					<TextField
+						InputProps={{ className: classes.root }}
+						InputLabelProps={{ className: classes.inputlabel }}
 						autoFocus
 						value={modalState.order}
 						onChange={e => setModalState({ ...modalState, order: e.target.value })}
 						margin="normal"
 						id="order"
-						label="Order"
+						label="ORDEM"
 						type="string"
 						fullWidth
 					/>
 					<TextField
 						value={modalState.name}
+						InputProps={{ className: classes.root }}
+						InputLabelProps={{ className: classes.inputlabel }}
 						onChange={e => setModalState({ ...modalState, name: e.target.value })}
 						margin="normal"
 						id="name"
-						label="Name"
+						label="NOME"
 						type="string"
 						fullWidth
 					/>
 					<TextField
+						InputProps={{ className: classes.root }}
+						InputLabelProps={{ className: classes.inputlabel }}
 						value={modalState.duration}
 						onChange={e => setModalState({ ...modalState, duration: e.target.value })}
 						margin="normal"
 						id="duration"
-						label="Duration"
+						label="TEMPO"
 						type="string"
 						fullWidth
 					/>

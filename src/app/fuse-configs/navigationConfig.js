@@ -6,7 +6,7 @@ import DocumentationNavigation from '../main/documentation/DocumentationNavigati
 import ar from './navigation-i18n/ar';
 import en from './navigation-i18n/en';
 import tr from './navigation-i18n/tr';
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 // import { setUserData } from './userSlice';
 // import { submitLoginWithFireBase } from 'app/auth/store/loginSlice';
 // import { submitLoginWithFireBase } from 'app/auth/store/loginSlice';
@@ -22,7 +22,7 @@ const navigationConfig = [
 	{
 		id: 'admobi',
 		title: 'Admobi',
-		translate: "ADMOBI",
+		translate: 'ADMOBI',
 		type: 'item',
 		icon: 'dashboard',
 		url: '/admobi/devicelist'
@@ -30,12 +30,11 @@ const navigationConfig = [
 	{
 		id: 'userdata',
 		title: 'Userdata',
-		translate: "USERDATA",
+		translate: 'GESTÃO DE USUÁRIOS',
 		type: 'item',
 		icon: 'person',
 		url: '/admobi/userdatalist'
-	},
-
+	}
 
 	// {
 	// 	id: 'applications',

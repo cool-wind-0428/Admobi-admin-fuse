@@ -38,52 +38,49 @@ import { MDBContainer, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalF
 import Chip from '@material-ui/core/Chip';
 import logger from 'redux-logger';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
 	formControl: {
-	  margin: theme.spacing(1),
-	  minWidth: 120,
-	  maxWidth: 300,
+		margin: theme.spacing(1),
+		minWidth: 120,
+		maxWidth: 300
 	},
 	chips: {
-	  display: 'flex',
-	  flexWrap: 'wrap',
+		display: 'flex',
+		flexWrap: 'wrap'
 	},
 	chip: {
-	  margin: 2,
+		margin: 2
 	},
 	noLabel: {
-	  marginTop: theme.spacing(3),
-	},
+		marginTop: theme.spacing(3)
+	}
 }));
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
+	PaperProps: {
+		style: {
+			maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+			width: 250
+		}
+	}
 };
 
 function getStyles(name, personName, theme) {
-	function isSelected(){
-		if(personName instanceof Array){
-			for(var key in personName){
+	function isSelected() {
+		if (personName instanceof Array) {
+			for (var key in personName) {
 				var value = personName[key];
-				if(value.value == name) return true;
+				if (value.value == name) return true;
 			}
 		}
 		return false;
 	}
-	 console.log(personName);
-	 console.log(name+' '+isSelected())
+	console.log(personName);
+	console.log(name + ' ' + isSelected());
 	return {
-	  fontWeight:
-		!isSelected()
-		  ? theme.typography.fontWeightRegular
-		  : theme.typography.fontWeightMedium,
+		fontWeight: !isSelected() ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium
 	};
 }
 
@@ -98,38 +95,33 @@ export default function InputPage(props) {
 	const [items1, setItems1] = useState([]);
 
 	useEffect(() => {
-
-		const getPaths = async () =>{
+		const getPaths = async () => {
 			let ar = [];
-			ar.push("admobi");
+			ar.push('admobi');
 			var paths = [];
 
-			while((ar.length > 0)){
+			while (ar.length > 0) {
 				let k = ar.pop();
-				
+
 				const storageRef = firebase.storage().ref(k);
 				const lists = await storageRef.listAll();
-				
+
 				const paths2 = lists.prefixes.map(({ fullPath }) => ({
 					value: fullPath,
 					label: fullPath
 				}));
-	
+
 				var i = 0;
-				for(i = 0;i < paths2.length;i++){
+				for (i = 0; i < paths2.length; i++) {
 					ar.push(paths2[i].label);
 				}
-				paths = [...paths, ...paths2];	
-
+				paths = [...paths, ...paths2];
 			}
 			setItems(paths);
-		
 		};
 
 		getPaths();
-
 	}, []);
-
 
 	useEffect(() => {
 		const value1 = state.photoURL;
@@ -159,7 +151,7 @@ export default function InputPage(props) {
 		setSelectedOptions(selectedOptions.target.value);
 	};
 	const classes = useStyles();
-  	const theme = useTheme();
+	const theme = useTheme();
 	const [personName, setPersonName] = React.useState([]);
 
 	const names = [
@@ -172,10 +164,10 @@ export default function InputPage(props) {
 		'Miriam Wagner',
 		'Bradley Wilkerson',
 		'Virginia Andrews',
-		'Kelly Snyder',
+		'Kelly Snyder'
 	];
 
-	const handleChange = (event) => {
+	const handleChange = event => {
 		setPersonName(event.target.value);
 	};
 
@@ -183,13 +175,13 @@ export default function InputPage(props) {
 	// 	setPersonName(event.target.value);
 	// };
 
-	const handleChangeMultiple = (event) => {
+	const handleChangeMultiple = event => {
 		const { options } = event.target;
 		const value = [];
 		for (let i = 0, l = options.length; i < l; i += 1) {
-		if (options[i].selected) {
-			value.push(options[i].value);
-		}
+			if (options[i].selected) {
+				value.push(options[i].value);
+			}
 		}
 		setPersonName(value);
 	};
@@ -218,10 +210,10 @@ export default function InputPage(props) {
 	};
 	return (
 		<>
-			<DialogContent classes={{ root: 'p-16 pb-0 sm:p-24 sm:pb-0' }} style={{minHeight:"80vh"}}>
+			<DialogContent classes={{ root: 'p-16 pb-0 sm:p-24 sm:pb-0' }} style={{ minHeight: '80vh' }}>
 				<TextField
 					id="title"
-					label="Title"
+					label="USUÁRIO"
 					className="mt-8 mb-16"
 					InputLabelProps={{
 						shrink: true
@@ -234,7 +226,7 @@ export default function InputPage(props) {
 					required
 					fullWidth
 				/>
-				<FormControl style={{width:"100%"}}>
+				<FormControl style={{ width: '100%' }}>
 					<Select
 						labelId="demo-mutiple-chip-label"
 						id="demo-mutiple-chip"
@@ -242,24 +234,29 @@ export default function InputPage(props) {
 						value={selectedOptions}
 						onChange={onChange}
 						input={<Input id="select-multiple-chip" />}
-						renderValue={(selected) => (
+						renderValue={selected => (
 							<div className={classes.chips}>
-								{selected.map((value) => (
+								{selected.map(value => (
 									<Chip key={value} label={value} className={classes.chip} />
 								))}
 							</div>
 						)}
 						MenuProps={MenuProps}
-
 					>
-						
-						{paths.length == 0 ? <LinearProgress color="secondary" /> : paths.map((path) => (
-							<MenuItem key={path.value} value={path.value} style={getStyles(path.value, selectedOptions, theme)} selected={true}>
-								{`${path.value}`}
-							</MenuItem>
-						))}
-						
-						
+						{paths.length == 0 ? (
+							<LinearProgress color="secondary" />
+						) : (
+							paths.map(path => (
+								<MenuItem
+									key={path.value}
+									value={path.value}
+									style={getStyles(path.value, selectedOptions, theme)}
+									selected={true}
+								>
+									{`${path.value}`}
+								</MenuItem>
+							))
+						)}
 					</Select>
 				</FormControl>
 				{/* <Select
@@ -276,7 +273,7 @@ export default function InputPage(props) {
 			</DialogContent>
 			<DialogActions className="justify-between px-8 sm:px-16">
 				<Button variant="contained" color="primary" type="submit" onClick={() => StoreTitle()}>
-					Add
+					SALVAR
 				</Button>
 			</DialogActions>
 		</>

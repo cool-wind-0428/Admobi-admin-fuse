@@ -317,10 +317,10 @@ function DemoContent(props) {
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={handleClose} color="default" variant="outlined">
-						Cancel
+						CANCELAR
 					</Button>
 					<Button onClick={handleModalSave} color="default" variant="outlined">
-						Save
+						SALVAR
 					</Button>
 				</DialogActions>
 			</Dialog>

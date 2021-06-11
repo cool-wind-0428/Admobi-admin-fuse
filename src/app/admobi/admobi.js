@@ -92,7 +92,7 @@ function CardedLeftSidebarSample() {
 		}
 	}
 
-	const buttonStyle = { fontWeight: '900', boxShadow: '0px 1px 10px #dbdbdb' };
+	const buttonStyle = { fontWeight: '900', boxShadow: '0px 1px 10px #fff' };
 
 	return (
 		<FusePageCarded
